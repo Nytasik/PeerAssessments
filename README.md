@@ -3,5 +3,6 @@ PeerAssessments
 
 PeerAssessments for Getting and Cleaning Data
 
-explains how all of the scripts work and how they are connected
+There is only one R script, CodeBook with description and result file tinyData.txt
+
 

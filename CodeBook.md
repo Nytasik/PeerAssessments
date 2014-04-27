@@ -29,15 +29,15 @@ The dataset includes the following files:
 
 * variables
 
-- label<-read.table("./data/UCI HAR Dataset/features.txt")
+- label - data.frame which defines column names (and its number) in test and train sets  
 
-- str<-as.character(label[,2])
+- str  - list of column names from 'label'
 
-- m0<-grep("mean()",str, fixed = TRUE)
+- m0 - list of column numbers, which contains mean()
 
-- s0<-grep("std()",str, fixed = TRUE)
+- s0 - list of column numbers, which contains std()
 
-- sum<-sort(c(m0,s0))
+- sum - full list of column numbers
 
 - colNa<-vector()
 
@@ -47,45 +47,46 @@ The dataset includes the following files:
 
 - colNam<-vector()
 
-- d<-length(sum)
+- train - train data (only mean and std)
 
-- train<-read.table("./data/UCI HAR Dataset/train/X_train.txt",
-                  colClasses=colNa)
+- test - test data (only mean and std)
 
-- test<-read.table("./data/UCI HAR Dataset/test/X_test.txt",
-                 colClasses=colNa)
+- trainAct - train activity data
 
-- trainAct<-read.table("./data/UCI HAR Dataset/train/Y_train.txt")
+- testAct - test activity data
 
-- testAct<-read.table("./data/UCI HAR Dataset/test/Y_test.txt")
+- trainSubj - subject train data
 
-- trainSubj<-read.table("./data/UCI HAR Dataset/train/subject_train.txt")
+- testSubj - subject test data
 
-- testSubj<-read.table("./data/UCI HAR Dataset/test/subject_test.txt")
+- mergedTrain - test+ train data
 
-- mergedTrain<-rbind(train,test)
+- mergedAct - test+train activity data (numbers)
 
-- mergedAct<-rbind(trainAct,testAct)
+- mergedSubj - test+train subject data
 
-- mergedSubj<-rbind(trainSubj,testSubj)
+- mergedActivity -  test+train activity data (text)
 
-- mergedActivity
+- mergedWithAct - full data set (train, activity, subject with names for each column)
 
-- labels<-read.table("./data/UCI HAR Dataset/activity_labels.txt")
+- cln - column names vector
 
-- mergedWithAct<-cbind(mergedTrain,mergedActivity,mergedSubj)
+- tst - reshaped by "Activity","Subject" data set 
 
-- colName<-c(colNam,"Activity","Subject")
-
-- cln<-vector()
-
-- tst<-melt(mergedWithAct,id.vars=c("Activity","Subject"),
-          measure.vars = cln)
-
-- tinyData<-dcast(tst,Activity + Subject ~ variable,mean)
+- tinyData - result
 
 
 * transformations
+
+1. Read the data from features.txt - become the data frame, contains numbers and names of columns
+2. Become a list of column numbers, which contains mean() or std(), sort it
+3. For faster the data reading, create a list of column type, which have to be loaded in R. If not needed to import - NULL
+4. Using read.table with parameter colClasses read data for train, test sets, activities and subjects
+5. merge data from step 4
+6. Become a list of column names for full table and set it
+7. Melt and cast data set from step 6 - tiny data
+
+Used functions:
 
 - read.table
 
